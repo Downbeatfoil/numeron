@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>numeron — a calculator that talks back</title>
+<meta name="description" content="a calculator that doesn't just answer — it tells you what your number actually is." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>numeron</h1>
+      <p class="tag">a calculator that talks back. it solves the thing, then tells you what the number <em>actually is</em>.</p>
+    </header>
+
+    <main>
+      <section class="calc" aria-label="calculator">
+        <div class="screen">
+          <input id="expr" type="text" spellcheck="false" autocomplete="off"
+                 placeholder="try: 2^10 + sqrt(144)   ·   or graph: sin(x)*x" aria-label="expression" />
+          <div id="result" class="result">0</div>
+          <div id="err" class="err" role="alert"></div>
+        </div>
+
+        <div class="keys" id="keys">
+          <button class="k fn" data-ins="sin(">sin</button>
+          <button class="k fn" data-ins="cos(">cos</button>
+          <button class="k fn" data-ins="tan(">tan</button>
+          <button class="k fn" data-ins="log(">log</button>
+          <button class="k fn" data-ins="ln(">ln</button>
+
+          <button class="k fn" data-ins="sqrt(">√</button>
+          <button class="k fn" data-ins="(">(</button>
+          <button class="k fn" data-ins=")">)</button>
+          <button class="k op" data-ins="^">x^y</button>
+          <button class="k fn" data-ins="!">n!</button>
+
+          <button class="k" data-ins="7">7</button>
+          <button class="k" data-ins="8">8</button>
+          <button class="k" data-ins="9">9</button>
+          <button class="k op" data-ins="/">÷</button>
+          <button class="k con" data-ins="pi">π</button>
+
+          <button class="k" data-ins="4">4</button>
+          <button class="k" data-ins="5">5</button>
+          <button class="k" data-ins="6">6</button>
+          <button class="k op" data-ins="*">×</button>
+          <button class="k con" data-ins="e">e</button>
+
+          <button class="k" data-ins="1">1</button>
+          <button class="k" data-ins="2">2</button>
+          <button class="k" data-ins="3">3</button>
+          <button class="k op" data-ins="-">−</button>
+          <button class="k con" data-ins="x">x</button>
+
+          <button class="k" data-ins="0">0</button>
+          <button class="k" data-ins=".">.</button>
+          <button class="k danger" id="clear">C</button>
+          <button class="k op" data-ins="+">+</button>
+          <button class="k eq" id="equals">=</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="tabs">
+          <button class="tab active" data-tab="facts">the number</button>
+          <button class="tab" data-tab="graph">grapher</button>
+          <button class="tab" data-tab="history">history</button>
+        </div>
+
+        <div class="tabview active" id="tab-facts">
+          <div id="facts" class="facts">
+            <p class="hint">type something and hit <kbd>=</kbd> or <kbd>enter</kbd>. i'll break the answer down for you.</p>
+          </div>
+        </div>
+
+        <div class="tabview" id="tab-graph">
+          <p class="hint">put an <b>x</b> in your expression and it plots automatically. drag to pan, scroll to zoom.</p>
+          <canvas id="graph" width="520" height="360"></canvas>
+          <div class="graphmeta" id="graphmeta"></div>
+        </div>
+
+        <div class="tabview" id="tab-history">
+          <ul id="history" class="history"><li class="hint">nothing yet.</li></ul>
+          <button id="clearHist" class="clearhist">clear history</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>built by hand for the hack club <a href="https://calculate.hackclub.com/" target="_blank" rel="noopener">calculate</a> challenge.</span>
+      <span>no math libraries — the parser is a shunting-yard i wrote from scratch. <a href="https://github.com/Downbeatfoil/numeron" target="_blank" rel="noopener">source</a></span>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
