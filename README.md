@@ -1,49 +1,50 @@
 # numeron
 
-a calculator that talks back. you give it an expression, it solves the thing — and then it tells you what the answer *actually is*.
+a calculator that talks back. you type an expression, it works out the answer, and then it tells you a bunch of stuff about that answer.
 
-built by hand for the hack club [calculate](https://calculate.hackclub.com/) challenge.
+made for the hack club [calculate](https://calculate.hackclub.com/) challenge.
 
 **live:** https://downbeatfoil.github.io/numeron/
 
-## the twist
+## the idea
 
-most calculators hand you a number and stop. numeron keeps going. every result gets broken down:
+normal calculators give you a number and stop there. i always wanted mine to keep going, so numeron takes the result and breaks it down:
 
-- **is it prime?** and if not, its full prime factorization (`12 → 2² × 3`)
-- **how many divisors** it has
-- the same number in **binary, hex, and octal**
-- its **roman numeral**
-- whether it's **perfect, fibonacci, a perfect square, even/odd**
-- for non-integers: the nearest **fraction** (`3.1428… ≈ 22/7`) and floor/ceil
+- is it prime? if not, the full prime factorization (`12` becomes `2² × 3`)
+- how many divisors it has
+- the same number in binary, hex, and octal
+- its roman numeral
+- flags for perfect, fibonacci, perfect square, even/odd
+- if the answer isn't a whole number, the closest simple fraction (`3.1428...` is basically `22/7`) plus floor and ceil
 
-type an expression with an `x` in it and it flips into a **live grapher** — pan by dragging, zoom by scrolling.
+put an `x` anywhere in the expression and it switches to a grapher instead. drag to pan, scroll to zoom.
 
-## what's under the hood
+## how it works
 
-no math libraries. the whole engine is written from scratch:
+no math libraries. i wrote the whole thing myself so i actually understood it:
 
-- a **tokenizer** that handles numbers, functions, constants, operators, unary minus, and postfix factorial
-- a **shunting-yard parser** that turns infix into RPN with proper precedence and right-associativity for `^`
-- an **RPN evaluator** that also doubles as the grapher's `f(x)` sampler
-- the number-analysis functions (prime sieve by trial division, roman conversion, continued-fraction-ish rational approximation)
+- a tokenizer that reads numbers, functions, constants, operators, unary minus, and the `!` factorial
+- a shunting-yard parser that turns the expression into RPN, with correct precedence and right-associativity for `^`
+- an RPN evaluator, which is also what the grapher calls to sample `f(x)`
+- the number stuff: primes by trial division, roman numeral conversion, and a loop that hunts for the nearest fraction
 
 functions: `sin cos tan asin acos atan log ln sqrt abs exp floor ceil round`
-constants: `pi e tau` · operators: `+ - * / % ^ !`
+constants: `pi e tau`
+operators: `+ - * / % ^ !`
 
-## running locally
+## running it locally
 
-it's just static files — no build step.
+just static files, nothing to build.
 
 ```bash
 python -m http.server 4321
-# open http://localhost:4321
+# then open http://localhost:4321
 ```
 
-## structure
+## files
 
 ```
-index.html   markup + keypad
+index.html   markup and the keypad
 style.css    the look
-app.js       tokenizer → parser → evaluator → analyzer → grapher
+app.js       tokenizer, parser, evaluator, number breakdown, grapher
 ```

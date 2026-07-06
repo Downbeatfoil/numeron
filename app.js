@@ -1,4 +1,4 @@
-/* numeron — a calculator that talks back.
+/* numeron. a calculator that talks back.
    everything here is hand-rolled: a tokenizer, a shunting-yard parser into RPN,
    an RPN evaluator, a number-analysis panel, and a canvas grapher.
    no math libraries. that's the point. */
@@ -152,7 +152,7 @@ function compile(src) {
 }
 
 /* ------------------------------------------------------------------ *
- *  4. number analysis — the "talks back" part
+ *  4. number analysis. the "talks back" part
  * ------------------------------------------------------------------ */
 function primeFactors(n) {
   const f = [];
@@ -201,7 +201,7 @@ function renderFacts(value) {
   const push = (label, val, cls = "") => rows.push(`<div class="fact"><span class="label">${label}</span><span class="val ${cls}">${val}</span></div>`);
 
   if (!isFinite(value)) {
-    box.innerHTML = `<p class="hint">that's ${value === Infinity ? "infinity" : value < 0 ? "negative infinity" : "not a number"} — nothing to factor there.</p>`;
+    box.innerHTML = `<p class="hint">that's ${value === Infinity ? "infinity" : value < 0 ? "negative infinity" : "not a number"}. nothing to factor there.</p>`;
     return;
   }
 
@@ -253,7 +253,7 @@ function approxFraction(x, maxDen = 10000) {
 }
 
 /* ------------------------------------------------------------------ *
- *  5. grapher — canvas, pan + zoom
+ *  5. grapher. canvas, pan + zoom
  * ------------------------------------------------------------------ */
 const G = {
   canvas: null, ctx: null,
@@ -312,7 +312,7 @@ function drawGraph() {
   ctx.stroke();
 
   const meta = document.getElementById("graphmeta");
-  if (!G.rpn) { meta.textContent = "no function loaded — type an expression with x."; return; }
+  if (!G.rpn) { meta.textContent = "no function loaded. type an expression with x."; return; }
 
   // plot
   ctx.strokeStyle = "#ffd23f";
@@ -355,7 +355,7 @@ function run() {
     setGraphExpr(src, compiled.rpn);
     switchTab("graph");
     resultEl.textContent = "f(x)";
-    document.getElementById("facts").innerHTML = `<p class="hint">that's a function of x — check the grapher tab. plug in a number instead to see its breakdown.</p>`;
+    document.getElementById("facts").innerHTML = `<p class="hint">that's a function of x. check the grapher tab. plug in a number instead to see its breakdown.</p>`;
     return;
   }
 
