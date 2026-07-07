@@ -1,50 +1,66 @@
 # numeron
 
-a calculator that talks back. you type an expression, it works out the answer, and then it tells you a bunch of stuff about that answer.
+a little calculator that talks too much. you type some math, it gives you the answer, and then it won't shut up about what that answer actually is.
 
-made for the hack club [calculate](https://calculate.hackclub.com/) challenge.
+made it for the hack club [calculate](https://calculate.hackclub.com/) thing.
 
-**live:** https://downbeatfoil.github.io/numeron/
+play with it here: https://downbeatfoil.github.io/numeron/
 
-## the idea
+## the point
 
-normal calculators give you a number and stop there. i always wanted mine to keep going, so numeron takes the result and breaks it down:
+i got bored of calculators that just spit out a number. so this one takes your answer and digs into it:
 
-- is it prime? if not, the full prime factorization (`12` becomes `2² × 3`)
+- is it prime? if not, what does it factor into (`12` is `2^2 × 3`)
 - how many divisors it has
-- the same number in binary, hex, and octal
-- its roman numeral
-- flags for perfect, fibonacci, perfect square, even/odd
-- if the answer isn't a whole number, the closest simple fraction (`3.1428...` is basically `22/7`) plus floor and ceil
+- the same number in binary and hex
+- its roman numeral, if that's a thing that makes sense
+- digit sum and digital root
+- how you'd say it out loud (`1068` -> "one thousand sixty-eight")
+- little tags if it's perfect, fibonacci, a square, a palindrome, whatever
 
-put an `x` anywhere in the expression and it switches to a grapher instead. drag to pan, scroll to zoom.
+if the answer isn't a whole number it'll find the closest simple fraction and the floor/ceil instead.
 
-## how it works
+put an `x` anywhere in what you type and it stops calculating and starts graphing. drag the graph around, scroll to zoom.
 
-no math libraries. i wrote the whole thing myself so i actually understood it:
+## themes
 
-- a tokenizer that reads numbers, functions, constants, operators, unary minus, and the `!` factorial
-- a shunting-yard parser that turns the expression into RPN, with correct precedence and right-associativity for `^`
-- an RPN evaluator, which is also what the grapher calls to sample `f(x)`
-- the number stuff: primes by trial division, roman numeral conversion, and a loop that hunts for the nearest fraction
+there's a row of dots at the top. click one and the whole thing changes look. right now:
 
-functions: `sin cos tan asin acos atan log ln sqrt abs exp floor ceil round`
+- **graph paper** (the default, looks like my math notebook)
+- **mint** (clean receipt vibe)
+- **crt** (green terminal with scanlines, my favorite)
+- **bubblegum** (pink, for when i want it cute)
+- **casio** (beige, like the calculator everyone has in class)
+
+whatever you pick sticks around next time you open it.
+
+there's also a sounds toggle. turn it on and every key plays a note, digits are tuned to a scale so mashing the number pad kind of sounds like something.
+
+## how the math actually works
+
+no math libraries, i wanted to understand it so i wrote the engine myself:
+
+- a tokenizer that reads the string into numbers, functions, operators, brackets, that kind of thing
+- a shunting-yard parser that reorders it into RPN with the right precedence (the unary minus took me way too long)
+- a tiny RPN evaluator that runs it. the graph reuses the same evaluator, it just feeds in a different x each pixel
+
+functions it knows: `sin cos tan asin acos atan log ln sqrt abs exp floor ceil round`
 constants: `pi e tau`
-operators: `+ - * / % ^ !`
+and `+ - * / % ^ !`
 
-## running it locally
+## running it yourself
 
-just static files, nothing to build.
+it's just three files, no build step, no npm, nothing.
 
 ```bash
 python -m http.server 4321
-# then open http://localhost:4321
+# open http://localhost:4321
 ```
 
-## files
+## what's in here
 
 ```
-index.html   markup and the keypad
-style.css    the look
-app.js       tokenizer, parser, evaluator, number breakdown, grapher
+index.html   the layout and the keypad
+style.css    the look + all the themes at the bottom
+app.js       tokenizer, parser, evaluator, the number facts, the graph
 ```
